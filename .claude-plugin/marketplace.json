@@ -1,0 +1,39 @@
+{
+  "name": "hybrid-local-router",
+  "owner": {
+    "name": "Calvin Churchill",
+    "email": "289497293+bishop07102001-code@users.noreply.github.com",
+    "url": "https://github.com/bishop07102001-code"
+  },
+  "description": "Skills for cost- and time-efficient work with Claude Code: local LLM routing (Exo/Ollama/LM Studio/vLLM/llama.cpp) and work orchestration (roadmap/grouping/handoff), available as one combined plugin or two focused ones.",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "hybrid-local-router",
+      "source": "./plugins/hybrid-local-router",
+      "description": "The full suite: all five skills (roadmap, grouping, local-offload, daisy-chain, handoff) in one install.",
+      "version": "1.4.0",
+      "author": {
+        "name": "Calvin Churchill"
+      }
+    },
+    {
+      "name": "local-llm-router",
+      "source": "./plugins/local-llm-router",
+      "description": "Local LLM routing only: local-offload + daisy-chain. For anyone who wants to route work to local hardware without the work-orchestration skills.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Calvin Churchill"
+      }
+    },
+    {
+      "name": "work-ops",
+      "source": "./plugins/work-ops",
+      "description": "Work orchestration only: roadmap + grouping + handoff. No local hardware required.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Calvin Churchill"
+      }
+    }
+  ]
+}

@@ -1,7 +1,24 @@
 # hybrid-local-router
 
-A Claude Code / agent marketplace plugin with five skills spanning
-strategy to execution:
+A Claude Code plugin marketplace with five skills spanning strategy to
+execution — available as **one combined plugin, or two focused ones**,
+your choice:
+
+| Plugin | Contains | Needs local hardware? |
+|---|---|---|
+| **`hybrid-local-router`** | All five skills | Only for `local-offload`/`daisy-chain`'s features — the rest work without it |
+| **`local-llm-router`** | `local-offload`, `daisy-chain` | Yes, to actually route locally (but it'll help you set one up) |
+| **`work-ops`** | `roadmap`, `grouping`, `handoff` | No |
+
+```
+/plugin marketplace add bishop07102001-code/hybrid-local-router
+
+/plugin install hybrid-local-router@hybrid-local-router   # everything
+/plugin install local-llm-router@hybrid-local-router       # just local routing
+/plugin install work-ops@hybrid-local-router                # just planning/execution
+```
+
+The five skills:
 
 - **`roadmap`** — tracks strategic initiatives in `ROADMAP.md` using a
   Now/Next/Later format (no false-precision ship dates). Sequences by
@@ -43,7 +60,7 @@ makes design decisions, it just executes.
 # Skill: roadmap
 
 No separate service to run — described in full in
-[`skills/roadmap/SKILL.md`](skills/roadmap/SKILL.md).
+[`plugins/hybrid-local-router/skills/roadmap/SKILL.md`](plugins/hybrid-local-router/skills/roadmap/SKILL.md) (also in `plugins/work-ops/`).
 
 **What it does**: maintains `ROADMAP.md` in your project root as a
 Now/Next/Later list of initiatives — deliberately dateless for anything not
@@ -89,8 +106,9 @@ need them.
    scaffolding, repetitive refactors) or architectural (design, judgment,
    security-sensitive).
 2. Mechanical sub-tasks are fully specified by the primary agent, then sent
-   as a standard OpenAI-format chat completion request to
-   `scripts/router_proxy.py`.
+   as a standard OpenAI-format chat completion request to the proxy
+   (`scripts/router_proxy.py`, wherever you installed it — see
+   Installation above).
 3. The proxy classifies the request (via an explicit `task_type` field or a
    keyword heuristic). For offload candidates against Exo, Ollama, LM
    Studio, vLLM, or llama.cpp, it also manages the model lifecycle itself,
@@ -111,7 +129,7 @@ need them.
 recommends an easy-onramp backend and a hardware-matched starter model
 (Ollama by default — single install, cross-platform), and only installs
 anything after explicit confirmation of what's being downloaded. See
-`skills/local-offload/SKILL.md`'s "Bootstrapping a local backend from
+`local-offload/SKILL.md`'s "Bootstrapping a local backend from
 scratch" for the full flow. This only offers once per session — if you
 decline, it falls back to cloud for the rest of the conversation without
 asking again.
@@ -173,64 +191,84 @@ proxy's control.
 
 ## What's included
 
+This repo is a **marketplace** (`.claude-plugin/marketplace.json` at the
+root, listing all three plugins below) rather than a single plugin itself —
+each plugin lives in its own self-contained subdirectory under `plugins/`
+with a complete copy of whatever skills it includes (plugins can't
+reference files outside their own directory, so `local-offload` and
+`daisy-chain`'s files are duplicated between `hybrid-local-router` and
+`local-llm-router`, and `roadmap`/`grouping`/`handoff`'s between
+`hybrid-local-router` and `work-ops`). Edits to shared skills need to be
+applied to both copies.
+
 ```
-hybrid-local-router/
+hybrid-local-router/                        (marketplace root)
 ├── .claude-plugin/
-│   └── plugin.json          # plugin manifest
-├── skills/
-│   ├── roadmap/
-│   │   └── SKILL.md         # strategic Now/Next/Later initiative tracking in ROADMAP.md
-│   ├── grouping/
-│   │   └── SKILL.md         # operational steps for batching/prioritizing/right-sizing a backlog
-│   ├── local-offload/
-│   │   └── SKILL.md         # operational steps the agent follows to offload work
-│   ├── daisy-chain/
-│   │   └── SKILL.md         # low-friction per-device join to an existing Exo cluster
-│   └── handoff/
-│       └── SKILL.md         # checkpointing across context compaction / session boundaries
-├── scripts/
-│   └── router_proxy.py      # FastAPI proxy that performs the actual local routing
-├── install.sh                # one-command dependency setup
+│   └── marketplace.json                    # lists the 3 plugins below
+├── plugins/
+│   ├── hybrid-local-router/                # full suite
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── skills/
+│   │   │   ├── roadmap/SKILL.md
+│   │   │   ├── grouping/SKILL.md
+│   │   │   ├── local-offload/SKILL.md
+│   │   │   ├── daisy-chain/SKILL.md
+│   │   │   └── handoff/SKILL.md
+│   │   ├── scripts/router_proxy.py         # FastAPI proxy for local routing
+│   │   └── install.sh                      # one-command dependency setup
+│   ├── local-llm-router/                   # local-offload + daisy-chain only
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── skills/{local-offload,daisy-chain}/SKILL.md
+│   │   ├── scripts/router_proxy.py
+│   │   └── install.sh
+│   └── work-ops/                           # roadmap + grouping + handoff only
+│       ├── .claude-plugin/plugin.json
+│       └── skills/{roadmap,grouping,handoff}/SKILL.md
+├── LICENSE
 └── README.md
 ```
 
 ## Prerequisites
 
-- Python 3.10+
-- A local OpenAI-compatible inference server. This plugin defaults to an
-  [Exo](https://github.com/exo-explore/exo) cluster at
-  `http://localhost:52415/v1`, but any OpenAI-compatible server works
-  (LM Studio, Ollama's OpenAI shim, vLLM, text-generation-webui, etc.) —
-  just point `LOCAL_ENDPOINT` at it.
-- `fastapi`, `uvicorn`, `httpx`, and `psutil` Python packages.
+- `work-ops` alone needs nothing beyond Claude Code itself.
+- `hybrid-local-router` / `local-llm-router` additionally need Python
+  3.10+, and a local OpenAI-compatible inference server (Exo, Ollama, LM
+  Studio, vLLM, llama.cpp, or anything else OpenAI-compatible — see
+  [`local-offload`](#skill-local-offload)'s bootstrap flow if you don't
+  have one yet).
 
 ## Installation
 
-### 1. Install as a Claude Code plugin
+### 1. Install the plugin(s) you want
 
-**From the marketplace** (recommended):
+**From the marketplace** (recommended) — pick one, or more than one:
 
 ```
 /plugin marketplace add bishop07102001-code/hybrid-local-router
-/plugin install hybrid-local-router@hybrid-local-router
+/plugin install hybrid-local-router@hybrid-local-router   # everything
+/plugin install local-llm-router@hybrid-local-router       # local routing only
+/plugin install work-ops@hybrid-local-router                # planning/execution only
 ```
 
-**Or manually**, if you're developing locally: copy or clone this
-directory into your plugins directory so Claude Code can discover
-`.claude-plugin/plugin.json`:
+**Or manually**, if you're developing locally — copy whichever plugin
+directory (or directories) you want into your plugins directory:
 
 ```bash
-cp -r hybrid-local-router ~/.claude/plugins/hybrid-local-router
+cp -r plugins/hybrid-local-router ~/.claude/plugins/hybrid-local-router
+# or: cp -r plugins/local-llm-router ~/.claude/plugins/local-llm-router
+# or: cp -r plugins/work-ops ~/.claude/plugins/work-ops
 ```
 
-Either way, restart Claude Code (or reload plugins) so all five skills —
-`roadmap`, `grouping`, `local-offload`, `daisy-chain`, `handoff` — are
-picked up. You should see them listed among available skills.
+Either way, restart Claude Code (or reload plugins) so the skills are
+picked up — you should see them listed among available skills.
+
+**If you installed `work-ops` only**, that's it — no further setup. The
+rest of this section is for `hybrid-local-router` / `local-llm-router`.
 
 ### 2. Install the proxy's Python dependencies
 
 ```bash
-cd hybrid-local-router
+cd plugins/hybrid-local-router   # or plugins/local-llm-router
 ./install.sh
 ```
 
@@ -239,7 +277,7 @@ This creates `.venv`, installs `fastapi`/`uvicorn`/`httpx`/`psutil`, and
 manual steps, if you'd rather not run the script:
 
 ```bash
-cd hybrid-local-router
+cd plugins/hybrid-local-router   # or plugins/local-llm-router
 python3 -m venv .venv
 source .venv/bin/activate
 pip install fastapi "uvicorn[standard]" httpx psutil
@@ -260,13 +298,19 @@ Verify it's serving an OpenAI-compatible API:
 curl -s http://localhost:52415/v1/models
 ```
 
+Don't have a local server set up yet? `local-offload` (in either
+`hybrid-local-router` or `local-llm-router`) will assess your hardware and
+help you install one — see its "Bootstrapping a local backend from
+scratch" flow, described below.
+
 ### 4. Start the router proxy
 
 ```bash
 python3 scripts/router_proxy.py
 ```
 
-By default this binds to `0.0.0.0:8787`. Check its health endpoint:
+(from inside the plugin directory you set up in step 2). By default this
+binds to `0.0.0.0:8787`. Check its health endpoint:
 
 ```bash
 curl -s http://localhost:8787/health | python3 -m json.tool
@@ -505,7 +549,7 @@ retrying indefinitely.
 # Skill: daisy-chain
 
 No separate service to run — described in full in
-[`skills/daisy-chain/SKILL.md`](skills/daisy-chain/SKILL.md).
+[`plugins/hybrid-local-router/skills/daisy-chain/SKILL.md`](plugins/hybrid-local-router/skills/daisy-chain/SKILL.md) (also in `plugins/local-llm-router/`).
 
 **What it does**: Exo already clusters devices on the same LAN with zero
 configuration — the actual friction in "connect all your devices" is the
@@ -534,7 +578,7 @@ deliberate scope decision, not an oversight.
 # Skill: grouping
 
 No separate service to run — this skill is pure agent behavior, described
-in full in [`skills/grouping/SKILL.md`](skills/grouping/SKILL.md).
+in full in [`plugins/hybrid-local-router/skills/grouping/SKILL.md`](plugins/hybrid-local-router/skills/grouping/SKILL.md) (also in `plugins/work-ops/`).
 
 **What it does**: given a backlog (this session's tracked tasks, or a
 documented to-do list you point it at), it groups related items so shared
@@ -573,7 +617,7 @@ works fine without it (ranking purely among Haiku/Sonnet/Opus).
 # Skill: handoff
 
 No separate service to run — described in full in
-[`skills/handoff/SKILL.md`](skills/handoff/SKILL.md).
+[`plugins/hybrid-local-router/skills/handoff/SKILL.md`](plugins/hybrid-local-router/skills/handoff/SKILL.md) (also in `plugins/work-ops/`).
 
 **What it does**: writes and reads a structured, human-readable checkpoint
 at `.claude/handoffs/<slug>.md` in your project — the goal, a per-group

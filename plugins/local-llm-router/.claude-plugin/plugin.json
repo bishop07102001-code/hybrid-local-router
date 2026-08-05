@@ -1,0 +1,29 @@
+{
+  "name": "local-llm-router",
+  "version": "1.0.0",
+  "description": "Routes boilerplate/refactor sub-tasks to a local LLM (Exo, Ollama, LM Studio, vLLM, or llama.cpp, auto-detected) instead of your cloud model, with usage tracking (GET /stats) showing estimated $ saved. If no local backend exists yet, assesses your hardware and helps you set one up. Includes daisy-chain for adding a device to an existing Exo cluster with one consolidated confirmation instead of per-step prompts. The local-model-specific half of hybrid-local-router, split out for anyone who wants local routing without the roadmap/grouping/handoff work-orchestration skills.",
+  "author": {
+    "name": "Calvin Churchill",
+    "email": "289497293+bishop07102001-code@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/bishop07102001-code/hybrid-local-router",
+  "license": "MIT",
+  "keywords": [
+    "local-llm",
+    "router",
+    "exo",
+    "ollama",
+    "lm-studio",
+    "vllm",
+    "llama.cpp",
+    "token-optimization",
+    "proxy",
+    "offload",
+    "usage-tracking",
+    "cluster",
+    "multi-device"
+  ],
+  "engines": {
+    "claude-code": ">=1.0.0"
+  }
+}

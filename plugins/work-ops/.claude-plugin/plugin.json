@@ -1,0 +1,22 @@
+{
+  "name": "work-ops",
+  "version": "1.0.0",
+  "description": "Three skills for planning and executing work efficiently, no local hardware required: roadmap tracks Now/Next/Later initiatives in ROADMAP.md; grouping breaks an initiative or backlog into value-ranked groups and dispatches each to the cheapest sufficient Claude tier and effort level (Haiku/Sonnet/Opus, quick/standard/thorough); handoff checkpoints long-running batches so they survive context compaction or a closed session. Composes with local-llm-router's local-offload skill if you have it installed, but works fully standalone without it. The work-orchestration half of hybrid-local-router, split out for anyone who doesn't need local LLM routing.",
+  "author": {
+    "name": "Calvin Churchill",
+    "email": "289497293+bishop07102001-code@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/bishop07102001-code/hybrid-local-router",
+  "license": "MIT",
+  "keywords": [
+    "task-grouping",
+    "model-selection",
+    "context-management",
+    "roadmap",
+    "planning",
+    "productivity"
+  ],
+  "engines": {
+    "claude-code": ">=1.0.0"
+  }
+}
