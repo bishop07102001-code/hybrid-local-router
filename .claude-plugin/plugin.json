@@ -1,0 +1,34 @@
+{
+  "name": "hybrid-local-router",
+  "version": "1.4.0",
+  "description": "Five skills for cost- and time-efficient work, from strategy to execution: roadmap tracks Now/Next/Later initiatives in ROADMAP.md; grouping breaks an initiative or backlog into value-ranked groups and dispatches each to the cheapest sufficient tier and effort level (local model / Haiku / Sonnet / Opus); local-offload routes boilerplate/refactor sub-tasks to a local LLM (Exo, Ollama, LM Studio, vLLM, or llama.cpp, auto-detected) with usage tracking (GET /stats) to show estimated $ saved, and can bootstrap a backend from scratch on a new machine; daisy-chain adds a device to an existing Exo cluster with one consolidated confirmation instead of per-step prompts; handoff checkpoints long-running batches so they survive context compaction or a closed session.",
+  "author": {
+    "name": "Calvin Churchill",
+    "email": "calvin@adhd-notes.com"
+  },
+  "homepage": "https://github.com/bishop07102001-code/hybrid-local-router",
+  "license": "MIT",
+  "keywords": [
+    "local-llm",
+    "router",
+    "exo",
+    "ollama",
+    "lm-studio",
+    "vllm",
+    "llama.cpp",
+    "token-optimization",
+    "proxy",
+    "offload",
+    "task-grouping",
+    "model-selection",
+    "context-management",
+    "usage-tracking",
+    "roadmap",
+    "planning",
+    "cluster",
+    "multi-device"
+  ],
+  "engines": {
+    "claude-code": ">=1.0.0"
+  }
+}
