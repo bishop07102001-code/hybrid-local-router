@@ -1,6 +1,6 @@
 #!/bin/bash
 # Sets up router_proxy.py's Python environment. Run from anywhere; it cds
-# into its own directory so `hybrid-local-router/install.sh` and
+# into its own directory so `claude-efficiency-suite/install.sh` and
 # `./install.sh` from inside the directory both work.
 set -euo pipefail
 
@@ -48,6 +48,6 @@ echo "       python3 \"$SCRIPT_DIR/scripts/router_proxy.py\""
 echo "  3. Check it found your backend:"
 echo "       curl -s http://localhost:8787/health | python3 -m json.tool"
 echo "  4. Install the Claude Code plugin itself, if you haven't:"
-echo "       cp -r \"$SCRIPT_DIR\" ~/.claude/plugins/hybrid-local-router"
+echo "       cp -r \"$SCRIPT_DIR\" ~/.claude/plugins/claude-efficiency-suite"
 echo ""
 echo "See README.md for backend-specific configuration (LOCAL_ENDPOINT, etc)."

@@ -1,5 +1,5 @@
 {
-  "name": "hybrid-local-router",
+  "name": "claude-efficiency-suite",
   "owner": {
     "name": "Calvin Churchill",
     "email": "289497293+bishop07102001-code@users.noreply.github.com",
@@ -9,8 +9,8 @@
   "version": "1.0.0",
   "plugins": [
     {
-      "name": "hybrid-local-router",
-      "source": "./plugins/hybrid-local-router",
+      "name": "claude-efficiency-suite",
+      "source": "./plugins/claude-efficiency-suite",
       "description": "The full suite: all five skills (roadmap, grouping, local-offload, daisy-chain, handoff) in one install.",
       "version": "1.4.0",
       "author": {

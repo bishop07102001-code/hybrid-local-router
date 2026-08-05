@@ -1,4 +1,4 @@
-# hybrid-local-router
+# claude-efficiency-suite
 
 A Claude Code plugin marketplace with five skills spanning strategy to
 execution — available as **one combined plugin, or two focused ones**,
@@ -6,16 +6,16 @@ your choice:
 
 | Plugin | Contains | Needs local hardware? |
 |---|---|---|
-| **`hybrid-local-router`** | All five skills | Only for `local-offload`/`daisy-chain`'s features — the rest work without it |
+| **`claude-efficiency-suite`** | All five skills | Only for `local-offload`/`daisy-chain`'s features — the rest work without it |
 | **`local-llm-router`** | `local-offload`, `daisy-chain` | Yes, to actually route locally (but it'll help you set one up) |
 | **`work-ops`** | `roadmap`, `grouping`, `handoff` | No |
 
 ```
-/plugin marketplace add bishop07102001-code/hybrid-local-router
+/plugin marketplace add bishop07102001-code/claude-efficiency-suite
 
-/plugin install hybrid-local-router@hybrid-local-router   # everything
-/plugin install local-llm-router@hybrid-local-router       # just local routing
-/plugin install work-ops@hybrid-local-router                # just planning/execution
+/plugin install claude-efficiency-suite@claude-efficiency-suite   # everything
+/plugin install local-llm-router@claude-efficiency-suite       # just local routing
+/plugin install work-ops@claude-efficiency-suite                # just planning/execution
 ```
 
 The five skills:
@@ -60,7 +60,7 @@ makes design decisions, it just executes.
 # Skill: roadmap
 
 No separate service to run — described in full in
-[`plugins/hybrid-local-router/skills/roadmap/SKILL.md`](plugins/hybrid-local-router/skills/roadmap/SKILL.md) (also in `plugins/work-ops/`).
+[`plugins/claude-efficiency-suite/skills/roadmap/SKILL.md`](plugins/claude-efficiency-suite/skills/roadmap/SKILL.md) (also in `plugins/work-ops/`).
 
 **What it does**: maintains `ROADMAP.md` in your project root as a
 Now/Next/Later list of initiatives — deliberately dateless for anything not
@@ -196,17 +196,17 @@ root, listing all three plugins below) rather than a single plugin itself —
 each plugin lives in its own self-contained subdirectory under `plugins/`
 with a complete copy of whatever skills it includes (plugins can't
 reference files outside their own directory, so `local-offload` and
-`daisy-chain`'s files are duplicated between `hybrid-local-router` and
+`daisy-chain`'s files are duplicated between `claude-efficiency-suite` and
 `local-llm-router`, and `roadmap`/`grouping`/`handoff`'s between
-`hybrid-local-router` and `work-ops`). Edits to shared skills need to be
+`claude-efficiency-suite` and `work-ops`). Edits to shared skills need to be
 applied to both copies.
 
 ```
-hybrid-local-router/                        (marketplace root)
+claude-efficiency-suite/                        (marketplace root)
 ├── .claude-plugin/
 │   └── marketplace.json                    # lists the 3 plugins below
 ├── plugins/
-│   ├── hybrid-local-router/                # full suite
+│   ├── claude-efficiency-suite/                # full suite
 │   │   ├── .claude-plugin/plugin.json
 │   │   ├── skills/
 │   │   │   ├── roadmap/SKILL.md
@@ -231,7 +231,7 @@ hybrid-local-router/                        (marketplace root)
 ## Prerequisites
 
 - `work-ops` alone needs nothing beyond Claude Code itself.
-- `hybrid-local-router` / `local-llm-router` additionally need Python
+- `claude-efficiency-suite` / `local-llm-router` additionally need Python
   3.10+, and a local OpenAI-compatible inference server (Exo, Ollama, LM
   Studio, vLLM, llama.cpp, or anything else OpenAI-compatible — see
   [`local-offload`](#skill-local-offload)'s bootstrap flow if you don't
@@ -244,17 +244,17 @@ hybrid-local-router/                        (marketplace root)
 **From the marketplace** (recommended) — pick one, or more than one:
 
 ```
-/plugin marketplace add bishop07102001-code/hybrid-local-router
-/plugin install hybrid-local-router@hybrid-local-router   # everything
-/plugin install local-llm-router@hybrid-local-router       # local routing only
-/plugin install work-ops@hybrid-local-router                # planning/execution only
+/plugin marketplace add bishop07102001-code/claude-efficiency-suite
+/plugin install claude-efficiency-suite@claude-efficiency-suite   # everything
+/plugin install local-llm-router@claude-efficiency-suite       # local routing only
+/plugin install work-ops@claude-efficiency-suite                # planning/execution only
 ```
 
 **Or manually**, if you're developing locally — copy whichever plugin
 directory (or directories) you want into your plugins directory:
 
 ```bash
-cp -r plugins/hybrid-local-router ~/.claude/plugins/hybrid-local-router
+cp -r plugins/claude-efficiency-suite ~/.claude/plugins/claude-efficiency-suite
 # or: cp -r plugins/local-llm-router ~/.claude/plugins/local-llm-router
 # or: cp -r plugins/work-ops ~/.claude/plugins/work-ops
 ```
@@ -263,12 +263,12 @@ Either way, restart Claude Code (or reload plugins) so the skills are
 picked up — you should see them listed among available skills.
 
 **If you installed `work-ops` only**, that's it — no further setup. The
-rest of this section is for `hybrid-local-router` / `local-llm-router`.
+rest of this section is for `claude-efficiency-suite` / `local-llm-router`.
 
 ### 2. Install the proxy's Python dependencies
 
 ```bash
-cd plugins/hybrid-local-router   # or plugins/local-llm-router
+cd plugins/claude-efficiency-suite   # or plugins/local-llm-router
 ./install.sh
 ```
 
@@ -277,7 +277,7 @@ This creates `.venv`, installs `fastapi`/`uvicorn`/`httpx`/`psutil`, and
 manual steps, if you'd rather not run the script:
 
 ```bash
-cd plugins/hybrid-local-router   # or plugins/local-llm-router
+cd plugins/claude-efficiency-suite   # or plugins/local-llm-router
 python3 -m venv .venv
 source .venv/bin/activate
 pip install fastapi "uvicorn[standard]" httpx psutil
@@ -299,7 +299,7 @@ curl -s http://localhost:52415/v1/models
 ```
 
 Don't have a local server set up yet? `local-offload` (in either
-`hybrid-local-router` or `local-llm-router`) will assess your hardware and
+`claude-efficiency-suite` or `local-llm-router`) will assess your hardware and
 help you install one — see its "Bootstrapping a local backend from
 scratch" flow, described below.
 
@@ -413,7 +413,7 @@ All configuration is via environment variables, read at proxy startup:
 | `MODEL_PROVISION_TIMEOUT_SECONDS` | `600` | Max time the background task waits for a placed instance to become ready |
 | `MODEL_PROVISION_POLL_INTERVAL_SECONDS` | `5` | How often the background task polls cluster state while waiting |
 | `MODEL_WARMUP_TIMEOUT_SECONDS` | `600` | Max time the background task waits for the post-load warmup call to finish |
-| `USAGE_DB_PATH` | `~/.hybrid-local-router/usage.sqlite3` | SQLite file the proxy logs routed requests to, for `GET /stats` |
+| `USAGE_DB_PATH` | `~/.claude-efficiency-suite/usage.sqlite3` | SQLite file the proxy logs routed requests to, for `GET /stats` |
 | `CLOUD_INPUT_COST_PER_MTOK` / `CLOUD_OUTPUT_COST_PER_MTOK` | `3.0` / `15.0` | USD per million input/output tokens, used only to *estimate* cloud cost avoided in `GET /stats`. Placeholders — set to your actual plan's effective rate for a meaningful number |
 | `CLOUD_UPSTREAM_URL` | *(unset)* | Optional cloud endpoint for non-offload requests, and the fallback tier when no local model can be used at all |
 | `CLOUD_UPSTREAM_API_KEY` | *(empty)* | API key for `CLOUD_UPSTREAM_URL`, if set |
@@ -549,7 +549,7 @@ retrying indefinitely.
 # Skill: daisy-chain
 
 No separate service to run — described in full in
-[`plugins/hybrid-local-router/skills/daisy-chain/SKILL.md`](plugins/hybrid-local-router/skills/daisy-chain/SKILL.md) (also in `plugins/local-llm-router/`).
+[`plugins/claude-efficiency-suite/skills/daisy-chain/SKILL.md`](plugins/claude-efficiency-suite/skills/daisy-chain/SKILL.md) (also in `plugins/local-llm-router/`).
 
 **What it does**: Exo already clusters devices on the same LAN with zero
 configuration — the actual friction in "connect all your devices" is the
@@ -578,7 +578,7 @@ deliberate scope decision, not an oversight.
 # Skill: grouping
 
 No separate service to run — this skill is pure agent behavior, described
-in full in [`plugins/hybrid-local-router/skills/grouping/SKILL.md`](plugins/hybrid-local-router/skills/grouping/SKILL.md) (also in `plugins/work-ops/`).
+in full in [`plugins/claude-efficiency-suite/skills/grouping/SKILL.md`](plugins/claude-efficiency-suite/skills/grouping/SKILL.md) (also in `plugins/work-ops/`).
 
 **What it does**: given a backlog (this session's tracked tasks, or a
 documented to-do list you point it at), it groups related items so shared
@@ -617,7 +617,7 @@ works fine without it (ranking purely among Haiku/Sonnet/Opus).
 # Skill: handoff
 
 No separate service to run — described in full in
-[`plugins/hybrid-local-router/skills/handoff/SKILL.md`](plugins/hybrid-local-router/skills/handoff/SKILL.md) (also in `plugins/work-ops/`).
+[`plugins/claude-efficiency-suite/skills/handoff/SKILL.md`](plugins/claude-efficiency-suite/skills/handoff/SKILL.md) (also in `plugins/work-ops/`).
 
 **What it does**: writes and reads a structured, human-readable checkpoint
 at `.claude/handoffs/<slug>.md` in your project — the goal, a per-group

@@ -1,7 +1,7 @@
 # local-llm-router
 
 The local-LLM-routing half of
-[hybrid-local-router](https://github.com/bishop07102001-code/hybrid-local-router) —
+[claude-efficiency-suite](https://github.com/bishop07102001-code/claude-efficiency-suite) —
 `local-offload` and `daisy-chain` only, no work-orchestration skills. See
 the [main repo README](../../README.md) for full documentation; this file
 is just the quick-start for this plugin specifically.
@@ -31,5 +31,5 @@ discovery & provisioning" details are in the
 
 Want `roadmap`/`grouping`/`handoff` too? Install
 [`work-ops`](../work-ops) alongside this, or install
-[`hybrid-local-router`](../hybrid-local-router) instead for all five in
+[`claude-efficiency-suite`](../claude-efficiency-suite) instead for all five in
 one plugin.

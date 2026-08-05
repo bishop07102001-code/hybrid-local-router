@@ -98,7 +98,7 @@ Environment variables:
                              provision a new one from scratch.
     USAGE_DB_PATH            SQLite file the proxy logs routed requests to,
                              for the GET /stats endpoint. Default:
-                             ~/.hybrid-local-router/usage.sqlite3
+                             ~/.claude-efficiency-suite/usage.sqlite3
     CLOUD_INPUT_COST_PER_MTOK / CLOUD_OUTPUT_COST_PER_MTOK
                              USD per million input/output tokens, used only
                              to *estimate* cloud cost avoided by local
@@ -188,7 +188,7 @@ LOCAL_ALLOW_AUTO_DOWNLOAD = os.environ.get("LOCAL_ALLOW_AUTO_DOWNLOAD", "false")
 )
 
 USAGE_DB_PATH = os.environ.get(
-    "USAGE_DB_PATH", os.path.expanduser("~/.hybrid-local-router/usage.sqlite3")
+    "USAGE_DB_PATH", os.path.expanduser("~/.claude-efficiency-suite/usage.sqlite3")
 )
 CLOUD_INPUT_COST_PER_MTOK = float(os.environ.get("CLOUD_INPUT_COST_PER_MTOK", "3.0"))
 CLOUD_OUTPUT_COST_PER_MTOK = float(os.environ.get("CLOUD_OUTPUT_COST_PER_MTOK", "15.0"))
@@ -1176,7 +1176,7 @@ def _compute_stats(window: str) -> dict[str, Any]:
 # --- HTTP handlers ----------------------------------------------------------
 
 app = FastAPI(
-    title="hybrid-local-router proxy",
+    title="claude-efficiency-suite proxy",
     description=(
         "Routes boilerplate/refactor chat completion requests to a local "
         "OpenAI-compatible LLM cluster, auto-managing which model is loaded "
@@ -1479,7 +1479,7 @@ if __name__ == "__main__":
     import uvicorn
 
     logger.info(
-        "starting hybrid-local-router proxy on %s:%d (local_endpoint=%s, "
+        "starting claude-efficiency-suite proxy on %s:%d (local_endpoint=%s, "
         "exo_control_url=%s, auto_provision=%s, cloud_upstream=%s)",
         ROUTER_HOST,
         ROUTER_PORT,

@@ -1,4 +1,4 @@
-# hybrid-local-router
+# claude-efficiency-suite
 
 The full suite — all five skills (`roadmap`, `grouping`, `local-offload`,
 `daisy-chain`, `handoff`) in one plugin. Full documentation lives in the

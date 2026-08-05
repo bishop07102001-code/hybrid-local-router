@@ -1,7 +1,7 @@
 # work-ops
 
 The work-orchestration half of
-[hybrid-local-router](https://github.com/bishop07102001-code/hybrid-local-router) —
+[claude-efficiency-suite](https://github.com/bishop07102001-code/claude-efficiency-suite) —
 `roadmap`, `grouping`, and `handoff` only, no local LLM routing. No setup
 required beyond installing the plugin — these are pure agent-behavior
 skills. See the [main repo README](../../README.md) for full
@@ -30,5 +30,5 @@ before I start a new conversation."
 
 `grouping` will check for a local model via `local-offload` if you also
 have [`local-llm-router`](../local-llm-router) or
-[`hybrid-local-router`](../hybrid-local-router) installed, but works
+[`claude-efficiency-suite`](../claude-efficiency-suite) installed, but works
 completely standalone (ranking purely among Haiku/Sonnet/Opus) without it.
