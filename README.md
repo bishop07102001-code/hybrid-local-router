@@ -1,6 +1,6 @@
 # hybrid-local-router
 
-A Claude Code / agent marketplace plugin with four skills spanning
+A Claude Code / agent marketplace plugin with five skills spanning
 strategy to execution:
 
 - **`roadmap`** — tracks strategic initiatives in `ROADMAP.md` using a
